@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculatrice</title>
+    <style>
+        body{
+            margin:auto;
+            padding:auto;
+            background-color: rgb(189, 76, 241);
+            text-align: center;
+            width:100%;
+            height: 100vh;
+            justify-content: center;
+        }
+        table{
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 300px;
+        }
+        td {
+            border: 2px black solid;
+            border-radius: 5px;
+            padding:10px;
+        }
+        input{
+            font-size: 15px;
+            background-color: cornflowerblue;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+
+        }
+       
+    </style>
+</head>
+<body>
+        <table class="calculatrice">
+            <tr>
+                <td colspan="3">
+                    <input type="text" value="" id="result"> </td>
+                    <td>
+                        <input type="button" value="c" onclick="cls()"/>
+                    </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="7" /></td>
+                <td>
+                    <input type="button" value="8" ></td>
+                <td>
+                    <input type="button" value="9" /></td>
+                <td>
+                    <input type="button" value="+" class="operator"></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="4" ></td>
+                <td>
+                    <input type="button" value="5" ></td>
+                <td>
+                    <input type="button" value="6" />
+                </td>
+                <td>
+                    <input type="button" value="-" class="operator"></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="1" >
+                </td>
+                <td>
+                    <input type="button" value="2" >
+                </td>
+                <td>
+                    <input type="button" value="3" ></td>
+                <td>
+                    <input type="button" value="." />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="0" >
+    
+                </td>
+                <td>
+                    <input type="button" value="/"  class="operator">
+                </td>
+                <td>
+                    <input type="button" value="="  class="operator">
+                </td>
+                <td>
+                    <input type="button" value="*"  class="operator">
+                </td>
+                <td>
+                    <input type="button" value="up"  class="operator">
+                </td>
+                <td>
+                    <input type="button" value="down"  class="operator">
+                </td>
+                
+            </tr>
+        </table>
+        <script type="text/javascript">
+        //variables
+        display = document.getElementById("result");
+        btn = document.querySelectorAll("input[type='button']");
+        mainTable = [];
+        numTable = [];
+        //maintable
+        function table(value){
+                if(value!=="+" && value!=="-" && value!=="*" && value!=="/" && value!=="="){
+                    numTable.push(value);
+                } else if(value=="="){
+                    mainTable.push(numTable.join(""));
+                    numTable = [];
+                    res()
+                } else{
+                    mainTable.push(numTable.join(""));
+                    numTable = [];
+                    mainTable.push(value);
+                }
+            }
+            //result
+            function res(){
+                result = 0
+                for(i=0 ; i < mainTable.length ; i+=2){
+                     result+=parseFloat(mainTable[i])
+                     console.log(result)
+                } 
+                display.value += result
+                return result
+            }
+            //adavnced result
+            function advanced(){
+                number = 0
+                
+                for(i=0;mainTable.length>i; i+=1){
+                    if(mainTable[i] == "*"){
+                        number = parseFloat(mainTable[i-1])*parseFloat(mainTable[i+1]);
+                        mainTable.splice(i-1,3,number);
+                    } else if (mainTable[i] == "/") {
+                        number = parseFloat(mainTable[i-1])/parseFloat(mainTable[i+1]);
+                        mainTable.splice(i-1,3,number);
+                    } 
+                }
+                
+                
+                return mainTable
+            }
+        //clickable button
+            
+            btn.forEach(element => {
+                element.addEventListener('click', ()=>{
+                    console.log(element.value);
+                    display.value += element.value;
+                    table(element.value);
+                });
+            });
+            
+        </script>
+    </body>
+    
+    </html>
